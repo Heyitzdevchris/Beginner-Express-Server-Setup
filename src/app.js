@@ -12,9 +12,11 @@ const sayHello = (req, res, next) => {
     res.send("Hello!");
 };
 
-// Call morgan & sayHello to return to the user.
+// Call app.morgan(dev) to return logs to console.
 app.use(morgan("dev"));
-app.use(sayHello);
+/* When a client makes a GET request to "/hello" on the Express server, the sayHello function will be invoked, 
+allowing you to define the logic for handling that specific request. */
+app.get("/hello", sayHello);
 
 // Export the Express application to be used in the server.js file.
 module.exports = app;
