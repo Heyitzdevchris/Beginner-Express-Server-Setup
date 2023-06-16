@@ -9,4 +9,4 @@ To get the server up and running on your local machine do the following:
 - Fork & clone the repository
 - Run `npm i` to install dependencies
 - Then run `npm run dev` to have nodemon start "watching" & run the server on local PORT:5001
-- You can then open your brower and head to "localhost:5001" to view the servers output.
+- You can then open your brower and head to "localhost:5001/hello" to view the servers output.
