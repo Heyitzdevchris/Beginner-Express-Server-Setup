@@ -10,3 +10,5 @@ To get the server up and running on your local machine do the following:
 - Run `npm i` to install dependencies
 - Then run `npm run dev` to have nodemon start "watching" & run the server on local PORT:5001
 - You can then open your brower and head to "localhost:5001/hello" to view the servers output.
+
+There are multiple routes that have been created within the servers app.js file, so feel free to try those routes out in your local server.
