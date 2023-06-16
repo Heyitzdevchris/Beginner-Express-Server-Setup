@@ -1,48 +1,57 @@
-// Require the Express package and assign it to a variable.
+// Import the Express framework
 const express = require("express");
-// Require the Morgan package and assign it to a variable.
+// Import the Morgan middleware for logging
 const morgan = require("morgan");
-
-// The Express package exports a function. When you invoke that function, you get a new Express application and assign it to a variable.
+// Create an Express application instance
 const app = express();
-
-// Initial Middleware to respond
-const sayHello = (req, res) => {
-    // Log the query parameters received in the request
-    console.log(req.query);
-
-    // Retrieve the value of the 'name' parameter from the query
-    const name = req.query.name;
-
-    // Construct the greeting content based on the presence of the 'name' parameter
-    const content = name ? `Hello, ${name}!` : 'Hello!';
-
-    // Send the content as the response to the client
-    res.send(content);
-};
-
-const saySomething = (req, res) => {
-    const greeting = req.params.greeting;
-    const content =  `${greeting}!`;
-    res.send(content);
-}
-
-// Call app.morgan(dev) to return logs to console.
+// Application-level middleware: Use Morgan for logging in dev mode
 app.use(morgan("dev"));
 
-// ---------- GET REQUESTS ---------- 
+// Define route functions
 
-/* When a client makes a GET request to "/hello" on the Express server, the sayHello function will be invoked, 
-allowing you to define the logic for handling that specific request. */
-app.get('/hello', sayHello);
-app.get('/say/:greeting', saySomething);
+// Route function for handling the "/hello" endpoint
+const sayHello = (req, res, next) => {
+  // Retrieve the value of the 'name' query parameter
+  const name = req.query.name;
 
-app.get('/songs', (req, res) => {
-    const title = req.query.title;
-    res.send(title);
-});
+  // Construct the greeting content based on the presence of the 'name' parameter
+  const content = name ? `Hello, ${name}!` : "Hello!";
+  
+  // Send the greeting content as the response
+  res.send(content);
+};
 
+// Route function for handling the "/say/goodbye" endpoint
+const sayGoodbye = (req, res, next) => {
+  // Send a fixed response for saying goodbye
+  res.send("Sorry to see you go!");
+};
 
+// Route function for handling the "/say/:greeting" endpoint
+const saySomething = (req, res, next) => {
+  // Retrieve the value of the 'greeting' parameter from the URL path
+  const greeting = req.params.greeting;
 
-// Export the Express application to be used in the server.js file.
+  // Retrieve the value of the 'name' query parameter
+  const name = req.query.name;
+
+  // Construct the greeting content based on the presence of 'greeting' and 'name' parameters
+  const content = greeting && name ? `${greeting}, ${name}!` : `${greeting}!`;
+  
+  // Send the greeting content as the response
+  res.send(content);
+};
+
+// Define the routes and associate them with the corresponding route functions
+
+// Route for the "/hello" endpoint, handled by the sayHello function
+app.get("/hello", sayHello);
+
+// Route for the "/say/goodbye" endpoint, handled by the sayGoodbye function
+app.get("/say/goodbye", sayGoodbye);
+
+// Route for the "/say/:greeting" endpoint, handled by the saySomething function
+app.get("/say/:greeting", saySomething);
+
+// Export the Express application instance
 module.exports = app;
