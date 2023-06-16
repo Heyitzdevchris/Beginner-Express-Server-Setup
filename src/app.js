@@ -21,6 +21,11 @@ const sayHello = (req, res) => {
     res.send(content);
 };
 
+const saySomething = (req, res) => {
+    const greeting = req.params.greeting;
+    const content =  `${greeting}!`;
+    res.send(content);
+}
 
 // Call app.morgan(dev) to return logs to console.
 app.use(morgan("dev"));
@@ -30,11 +35,14 @@ app.use(morgan("dev"));
 /* When a client makes a GET request to "/hello" on the Express server, the sayHello function will be invoked, 
 allowing you to define the logic for handling that specific request. */
 app.get('/hello', sayHello);
+app.get('/say/:greeting', saySomething);
 
 app.get('/songs', (req, res) => {
     const title = req.query.title;
     res.send(title);
 });
+
+
 
 // Export the Express application to be used in the server.js file.
 module.exports = app;
