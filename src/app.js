@@ -53,5 +53,35 @@ app.get("/say/goodbye", sayGoodbye);
 // Route for the "/say/:greeting" endpoint, handled by the saySomething function
 app.get("/say/:greeting", saySomething);
 
+// Handle GET request to "/states/:abbreviation" endpoint
+app.get("/states/:abbreviation", (req, res, next) => {
+    // Retrieve the value of the 'abbreviation' parameter from the URL path
+    const abbreviation = req.params.abbreviation;
+  
+    // Check if the 'abbreviation' length is not equal to 2
+    if (abbreviation.length !== 2) {
+      // If the abbreviation is invalid, pass an error to the next middleware
+      next("State abbreviation is invalid.");
+    } else {
+      // If the abbreviation is valid, send a response with a nice state message
+      res.send(`${abbreviation} is a nice state, I'd like to visit.`);
+    }
+  });
+  
+  // Handle requests for non-existent routes
+  app.use((req, res, next) => {
+    // Send a response indicating that the requested route does not exist
+    res.send(`The route ${req.path} does not exist!`);
+  });
+  
+
+// ---------- Error Handling ----------
+
+// Error handler
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.send(err);
+  });
+
 // Export the Express application instance
 module.exports = app;
